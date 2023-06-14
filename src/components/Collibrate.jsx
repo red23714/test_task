@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 import { createUseStyles } from 'react-jss';
 
+let styleVariables = {
+    styleCollibrate: { display: '' },
+    styleArea: { background: '#fff' },
+    styleSaved: { display: 'none' },
+    styleButton: { backgroundColor: 'white' }
+}
+
 const styles = createUseStyles({
     myCollibrate:
     {
@@ -33,10 +40,10 @@ const styles = createUseStyles({
 
 const Collibrate = (props) => {
     const [text, setText] = useState('');
-    const [isValid, setIsValid] = useState("true");
+    const [isValid, setIsValid] = useState(true);
     const [isSaved, setIsSaved] = useState(false);
 
-    const classes = styles([props.state.styleCollibrate, props.state.styleArea, props.state.styleSaved, props.state.styleButton]);
+    const classes = styles([styleVariables.styleCollibrate, styleVariables.styleArea, styleVariables.styleSaved, styleVariables.styleButton]);
 
     const bracket_coll = (text_in) => {
         let brackets = "()[]{}<>";
@@ -46,11 +53,11 @@ const Collibrate = (props) => {
             let is_bracket = brackets.indexOf(char);
             if (is_bracket >= 0) {
                 if (is_bracket % 2 !== 0) {
-                    if (stack.lenght === 0) return "false"; 
+                    if (stack.lenght === 0) return false; 
 
                     let last_element = stack.pop();
                     if (last_element !== is_bracket - 1) {
-                        return "false";
+                        return false;
                     }
                 }
                 else {
@@ -59,8 +66,8 @@ const Collibrate = (props) => {
             }
         }
 
-        if (stack.length === 0) return "true";
-        else return "false";
+        if (stack.length === 0) return true;
+        else return false;
     }
 
     const changeText = (e) => {
@@ -70,33 +77,33 @@ const Collibrate = (props) => {
 
         setIsValid(isValidIn);
 
-        if(isValidIn === "false") 
+        if(isValidIn === false) 
         {
-            props.state.styleArea = {background: '#D53032'};
-            props.state.styleButton = {backgroundColor: 'white'};
+            styleVariables.styleArea = {background: '#D53032'};
+            styleVariables.styleButton = {backgroundColor: 'white'};
         }
         else 
         {
-            props.state.styleArea = {background: '#fff'};
-            props.state.styleButton = {backgroundColor: 'yellow'}
+            styleVariables.styleArea = {background: '#fff'};
+            styleVariables.styleButton = {backgroundColor: 'yellow'}
         }
     }
 
     const handleSave = () =>
     {
-        props.state.styleSaved = {display: ''};
-        props.state.styleCollibrate = {display: 'none'};
+        styleVariables.styleSaved = {display: ''};
+        styleVariables.styleCollibrate = {display: 'none'};
         localStorage.setItem('text', text);
-        props.state.styleButton = {backgroundColor: 'red'};
+        styleVariables.styleButton = {backgroundColor: 'red'};
         setIsSaved(true);
     }
 
     const handleClose = () =>
     {
-        props.state.styleSaved = {display: 'none'};
-        props.state.styleCollibrate = {display: ''};
+        styleVariables.styleSaved = {display: 'none'};
+        styleVariables.styleCollibrate = {display: ''};
         setText(localStorage.getItem('text'));
-        props.state.styleButton = {backgroundColor: 'yellow'};
+        styleVariables.styleButton = {backgroundColor: 'yellow'};
         setIsSaved(false);
     }
 
@@ -109,18 +116,21 @@ const Collibrate = (props) => {
 
     return (
         <div>
+            {isSaved ? (
             <div className={classes.mySaved}>
                 <p>Текст успешно сохранен</p>
                 <button onClick={handleClose}>Закрыть</button>
             </div>
+            ) : (
             <div className={classes.myCollibrate}>
                 <textarea className={classes.myTextarea} onChange={changeText}
                     value={text}
                     placeholder='Type text' />
-                <p> {isValid} </p>
-                <button className={classes.myButton} onClick={handleSave} disabled={isValid !== "true"}>Сохранить</button>
+                <p> {isValid.toString()} </p>
+                <button className={classes.myButton} onClick={handleSave} disabled={!isValid}>Сохранить</button>
                 <button onClick={handleErase}>Очистить</button>
             </div>
+            )}
         </div>
     );
 }
