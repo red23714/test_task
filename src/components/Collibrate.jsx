@@ -1,49 +1,49 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { createUseStyles } from 'react-jss';
-
-let styleVariables = {
-    styleCollibrate: { display: '' },
-    styleArea: { background: '#fff' },
-    styleSaved: { display: 'none' },
-    styleButton: { backgroundColor: 'white' }
-}
 
 const styles = createUseStyles({
     myCollibrate:
     {
-        display: (props) => props[0].display,
+        display: (props) => props.saved ? 'none' : 'flex',
+        justifyContent: 'flex-end',
+        flexDirection: 'column',
+        alignItems: 'flex-end',
+        padding: 10 
     },
+
     myTextarea:
     {
-        background: (props) => props[1].background,
-        width: '70%',
-        height: '800px',
+        background: (props) => props.valid ? 'white' : '#D53032',
+        width: '97%',
+        height: '85vh',
         resize: 'none',
         border: [2, '#000', 'solid'],
         padding: 10,
-        fontFamily: 'Kaushan Script'
+        fontFamily: 'Kaushan Script',
+        paddingBottom: 20
     },
+
     mySaved:
     {
-        display: (props) => props[2].display
+        display: (props) => props.saved ? '' : 'none'
     },
-    myButton:
+
+    myButtonSave:
     {
-        backgroundColor: (props) => props[3].backgroundColor,
+        alignSelf: 'center',
+        cursor: 'pointer',
+        backgroundColor: (props) => props.valid ? 'yellow' : 'white',
         '&:hover':
         {
             backgroundColor: '#4CAF50',
             color: 'white'
         }
-    },
+    }
 });
 
-const Collibrate = (props) => {
+const Collibrate = () => {
     const [text, setText] = useState('');
-    const [isValid, setIsValid] = useState(true);
     const [isSaved, setIsSaved] = useState(false);
-
-    const classes = styles([styleVariables.styleCollibrate, styleVariables.styleArea, styleVariables.styleSaved, styleVariables.styleButton]);
 
     const bracket_coll = (text_in) => {
         let brackets = "()[]{}<>";
@@ -70,41 +70,23 @@ const Collibrate = (props) => {
         else return false;
     }
 
-    const changeText = (e) => {
-        setText(e.target.value);
+    const isValid = useMemo(() => bracket_coll(text), [text]);
 
-        let isValidIn = bracket_coll(e.target.value);
-
-        setIsValid(isValidIn);
-
-        if(isValidIn === false) 
-        {
-            styleVariables.styleArea = {background: '#D53032'};
-            styleVariables.styleButton = {backgroundColor: 'white'};
-        }
-        else 
-        {
-            styleVariables.styleArea = {background: '#fff'};
-            styleVariables.styleButton = {backgroundColor: 'yellow'}
-        }
-    }
+    const classes = styles({valid: isValid, saved: isSaved});
 
     const handleSave = () =>
     {
-        styleVariables.styleSaved = {display: ''};
-        styleVariables.styleCollibrate = {display: 'none'};
         localStorage.setItem('text', text);
-        styleVariables.styleButton = {backgroundColor: 'red'};
+
         setIsSaved(true);
     }
 
     const handleClose = () =>
     {
-        styleVariables.styleSaved = {display: 'none'};
-        styleVariables.styleCollibrate = {display: ''};
         setText(localStorage.getItem('text'));
-        styleVariables.styleButton = {backgroundColor: 'yellow'};
+
         setIsSaved(false);
+        console.log(classes);
     }
 
     const handleErase = () =>
@@ -112,7 +94,7 @@ const Collibrate = (props) => {
         setText('');
     }
 
-    window.onload = function() {setText(localStorage.getItem('text'))};
+    useEffect(() => {setText(localStorage.getItem('text'))}, []);
 
     return (
         <div>
@@ -123,11 +105,11 @@ const Collibrate = (props) => {
             </div>
             ) : (
             <div className={classes.myCollibrate}>
-                <textarea className={classes.myTextarea} onChange={changeText}
+                <textarea className={classes.myTextarea} onChange={(e) => setText(e.target.value)}
                     value={text}
                     placeholder='Type text' />
                 <p> {isValid.toString()} </p>
-                <button className={classes.myButton} onClick={handleSave} disabled={!isValid}>Сохранить</button>
+                <button className={classes.myButtonSave} onClick={handleSave} disabled={!isValid}>Сохранить</button>
                 <button onClick={handleErase}>Очистить</button>
             </div>
             )}

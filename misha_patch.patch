@@ -1,0 +1,49 @@
+Index: src/components/Collibrate.jsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/components/Collibrate.jsx b/src/components/Collibrate.jsx
+--- a/src/components/Collibrate.jsx	(revision 21d0bc4177e90efe434b297f7ab1a76167a79547)
++++ b/src/components/Collibrate.jsx	(date 1686762667743)
+@@ -53,7 +53,7 @@
+             let is_bracket = brackets.indexOf(char);
+             if (is_bracket >= 0) {
+                 if (is_bracket % 2 !== 0) {
+-                    if (stack.lenght === 0) return false; 
++                    if (stack.lenght === 0) return false;
+ 
+                     let last_element = stack.pop();
+                     if (last_element !== is_bracket - 1) {
+@@ -71,18 +71,19 @@
+     }
+ 
+     const changeText = (e) => {
+-        setText(e.target.value);
++        // setText(e.target.value);
+ 
+-        let isValidIn = bracket_coll(e.target.value);
++        let isValidIn = bracket_coll(e.target.value + "{");
++        console.log(isValidIn)
+ 
+-        setIsValid(isValidIn);
++        // setIsValid(isValidIn);
+ 
+-        if(isValidIn === false) 
++        if(isValidIn === false)
+         {
+             styleVariables.styleArea = {background: '#D53032'};
+             styleVariables.styleButton = {backgroundColor: 'white'};
+         }
+-        else 
++        else
+         {
+             styleVariables.styleArea = {background: '#fff'};
+             styleVariables.styleButton = {backgroundColor: 'yellow'}
+@@ -135,4 +136,4 @@
+     );
+ }
+ 
+-export default Collibrate;
+\ No newline at end of file
++export default Collibrate;
