@@ -8,14 +8,15 @@ const styles = createUseStyles({
         justifyContent: 'flex-end',
         flexDirection: 'column',
         alignItems: 'flex-end',
-        padding: 10 
+        padding: 10,
+        margin: 'auto' 
     },
 
     myTextarea:
     {
         background: (props) => props.valid ? 'white' : '#D53032',
-        width: '97%',
-        height: '85vh',
+        width: '97vw',
+        height: '80vh',
         resize: 'none',
         border: [2, '#000', 'solid'],
         padding: 10,
