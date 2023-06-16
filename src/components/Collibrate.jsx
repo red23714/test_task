@@ -101,7 +101,7 @@ const Collibrate = () => {
         setText('');
     }
 
-    useEffect(() => {setText(localStorage.getItem('text'))}, []);
+    useEffect(() => {localStorage.getItem('text') ? setText(localStorage.getItem('text')) : setText('')}, []);
 
     return (
         <div>
