@@ -5,13 +5,12 @@ const styles = createUseStyles({
     myCollibrate:
     {
         display: (props) => props.saved ? 'none' : 'flex',
-        margin: 10,
         flexDirection: 'column',
-        direction: 'rtl',
         flex: 'auto',
-        '& *':
+        '& *:not($textarea)':
         {
-            margin: 10
+            margin: 10,
+            marginLeft: 'auto'
         },
         '& $textarea':
         {
@@ -20,7 +19,7 @@ const styles = createUseStyles({
             resize: 'none',
             border: [2, '#000', 'solid'],
             fontFamily: 'Kaushan Script',
-            marginBottom: 20,
+            minHeight: 'auto',
         },
         '& $p':
         {
