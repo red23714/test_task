@@ -6,6 +6,7 @@ const styles = createUseStyles({
     {
         display: (props) => props.saved ? 'none' : 'flex',
         flexDirection: 'column',
+        height: '100vh',
         flex: 'auto',
         '& *:not($textarea)':
         {
@@ -14,24 +15,17 @@ const styles = createUseStyles({
         },
         '& $textarea':
         {
-            flex: [1, 1, 'auto'],
+            marginBottom: 20,
             background: (props) => props.valid ? 'white' : '#D53032',
             resize: 'none',
             border: [2, '#000', 'solid'],
             fontFamily: 'Kaushan Script',
-            minHeight: 'auto',
+            height: '100%',
         },
         '& $p':
         {
             flexGrow: 0,
         }
-    },
-
-    myButtons:
-    {
-        flexGrow: 0,
-        marginLeft: '65%',
-        padding: 10
     },
 
     myButtonSave:
@@ -125,7 +119,8 @@ const Collibrate = () => {
                         value={text}
                         placeholder='Type text' />
                     <p> {isValid.toString()} </p>
-                    <div className={classes.myButtons}>
+                    
+                    <div>
                         <button className={classes.myButtonSave} onClick={handleSave} disabled={!isValid}>Сохранить</button>
                         <button onClick={handleErase}>Очистить</button>
                     </div>
