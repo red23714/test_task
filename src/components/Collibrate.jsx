@@ -40,6 +40,11 @@ const styles = createUseStyles({
         {
             backgroundColor: '#4CAF50',
             color: 'white'
+        },
+        '&:active':
+        {
+            backgroundColor: 'red',
+            color: 'white'
         }
     },
 
