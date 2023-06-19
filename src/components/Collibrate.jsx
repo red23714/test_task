@@ -7,6 +7,7 @@ const styles = createUseStyles({
         display: (props) => props.saved ? 'none' : 'flex',
         margin: 10,
         flexDirection: 'column',
+        direction: 'rtl',
         flex: 'auto',
         '& *':
         {
