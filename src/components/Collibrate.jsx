@@ -5,17 +5,21 @@ const styles = createUseStyles({
     myCollibrate:
     {
         display: (props) => props.saved ? 'none' : 'flex',
-        padding: 10,
+        margin: 10,
         flexDirection: 'column',
+        flex: 'auto',
+        '& *':
+        {
+            margin: 10
+        },
         '& $textarea':
         {
             flex: [1, 1, 'auto'],
             background: (props) => props.valid ? 'white' : '#D53032',
             resize: 'none',
             border: [2, '#000', 'solid'],
-            padding: 10,
             fontFamily: 'Kaushan Script',
-            paddingBottom: 20,
+            marginBottom: 20,
         },
         '& $p':
         {
@@ -110,9 +114,7 @@ const Collibrate = () => {
 
     useEffect(() => { localStorage.getItem('text') ? setText(localStorage.getItem('text')) : setText('') }, []);
 
-    return (
-        <div>
-            {isSaved ? (
+    return isSaved ? (
                 <div className={classes.mySaved}>
                     <p>Текст успешно сохранен</p>
                     <button onClick={handleClose}>Закрыть</button>
@@ -128,9 +130,7 @@ const Collibrate = () => {
                         <button onClick={handleErase}>Очистить</button>
                     </div>
                 </div>
-            )}
-        </div>
-    );
+            );
 }
 
 export default Collibrate;
