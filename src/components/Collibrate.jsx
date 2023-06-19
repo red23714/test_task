@@ -27,6 +27,7 @@ const styles = createUseStyles({
     {
         flexGrow: 0,
         marginLeft: '65%',
+        padding: 10
     },
 
     myButtonSave:
